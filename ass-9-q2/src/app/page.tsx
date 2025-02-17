@@ -1,6 +1,4 @@
 import Link from "next/link";
-
-
 export default function Home() {
   return (
     <div className="bg-blue-300 min-h-screen flex items-center justify-center">

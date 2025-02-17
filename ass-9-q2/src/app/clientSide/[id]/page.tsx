@@ -1,6 +1,13 @@
+
+import Image from "next/image";
 import React from "react";
 
-async function Client({ params }: { params: { id: string } }) {
+type ClientProps = {
+    params: {
+      id: string;
+    };
+  };
+async function Client({ params }: ClientProps) {
   const { id } = params;
   const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
     cache: "no-store",
@@ -15,11 +22,13 @@ async function Client({ params }: { params: { id: string } }) {
   return (
     <div className="bg-blue-300 py-10 min-h-screen">
       <div className="max-w-md mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-lg p-4 hover:scale-105">
-        <img
-          src={data.image}
-          alt={data.title}
-          className="w-full h-48 object-contain bg-white rounded-lg"
-        />
+      <Image
+  src={data.image}
+  alt={data.title}
+  width={300}
+  height={300}
+  className="w-full h-48 object-contain bg-white rounded-lg"
+/>
         <div className="p-4 text-white">
           <h3 className="text-2xl font-extrabold">{data.title}</h3>
           <h4 className="font-medium hover:underline opacity-[80%]">
