@@ -1,12 +1,25 @@
-
 import Image from "next/image";
 import React from "react";
 
 type ClientProps = {
-    params: {
-      id: string;
-    };
+  params: {
+    id: string;
   };
+};
+
+type ProductData = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
+};
+
 async function Client({ params }: ClientProps) {
   const { id } = params;
   const response = await fetch(`https://fakestoreapi.com/products/${id}`, {
@@ -17,18 +30,23 @@ async function Client({ params }: ClientProps) {
     return <div>Error fetching product data</div>;
   }
 
-  const data = await response.json();
+  const data: ProductData = await response.json();
+
+  // Handle missing or undefined properties
+  if (!data || !data.image || !data.title) {
+    return <div>Error: Product data is missing or incomplete</div>;
+  }
 
   return (
     <div className="bg-blue-300 py-10 min-h-screen">
       <div className="max-w-md mx-auto bg-gray-900 rounded-lg overflow-hidden shadow-lg p-4 hover:scale-105">
-      <Image
-  src={data.image}
-  alt={data.title}
-  width={300}
-  height={300}
-  className="w-full h-48 object-contain bg-white rounded-lg"
-/>
+        <Image
+          src={data.image}
+          alt={data.title}
+          width={300}
+          height={300}
+          className="w-full h-48 object-contain bg-white rounded-lg"
+        />
         <div className="p-4 text-white">
           <h3 className="text-2xl font-extrabold">{data.title}</h3>
           <h4 className="font-medium hover:underline opacity-[80%]">
